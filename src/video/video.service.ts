@@ -27,16 +27,17 @@ export class VideoService {
   }
 
   async findOne(id: number, userId: number) {
-    const video = await this.em.findOne(Video, {
-      id
+    const video = await this.em.find(Video, {
     }, {
+      offset: id,
+      limit: 1,
       populate: ["engagements"],
       populateFilter: {
         engagements: { user: {$eq: userId }}
       }
     });
 
-    return video;
+    return video[0];
   }
 
   async updateEngagement(videoId: number, userKey: string, action: "like" | "favourite") {
