@@ -1,19 +1,28 @@
 import { Logger } from '@nestjs/common';
-import { User, BaseEntity, GameStates } from './entities';
+import { User, GameStates } from './entities';
 import { defineConfig } from '@mikro-orm/postgresql';
 import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations'; // or `@mikro-orm/migrations-mongodb`
 import { Video } from './entities/Video';
 import { VideoEngagement } from './entities/VideoEngagement';
 import { SeedManager } from '@mikro-orm/seeder';
 
+import * as dotenv from 'dotenv';
+dotenv.config(); // Load .env manually
+
 const logger = new Logger('MikroORM');
+const DATABASE_HOST = process.env.DATABASE_HOST;
+const DATABASE_NAME = process.env.DATABASE_NAME;
+const DATABASE_USER = process.env.DATABASE_USER;
+const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+const DATABASE_PORT = process.env.DATABASE_PORT;
 
 export default defineConfig({
   entities: [User, GameStates, Video, VideoEngagement],
-  dbName: 'slot-tok',
-  user: "postgres",
-  password: "111",
-  port: 7216,
+  host: DATABASE_HOST,
+  dbName: DATABASE_NAME,
+  user: DATABASE_USER,
+  password: DATABASE_PASSWORD,
+  port: Number(DATABASE_PORT),
   debug: true,
   logger: logger.log.bind(logger),
   allowGlobalContext: true,
