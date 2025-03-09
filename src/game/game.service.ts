@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import egyptianTreasuresData from '../games-data/egyptian-treasures';
 import { GameStates, User } from 'src/entities';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { cryptoRandom } from 'src/utils/game';
 
 @Injectable()
 export class GameService {
@@ -44,7 +45,7 @@ export class GameService {
 
         for (let i = 0; i < reelsCount; i++) {
             position.push(Array.from(Array(reelPositions + 1)).map(() => {
-                return Math.floor(Math.random() * symbolsCount) + 1;
+                return Math.floor(cryptoRandom() * symbolsCount) + 1;
             }));
         }
 

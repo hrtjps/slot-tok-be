@@ -5,6 +5,7 @@ import * as md5 from 'md5';
 import { v1 as uuidv1 } from 'uuid';
 import { VideoService } from 'src/video/video.service';
 import { UserService } from 'src/user/user.service';
+import { cryptoRandom } from 'src/utils/game';
 
 @WebSocketGateway({ cors: true })
 export class GameGateway {
@@ -91,7 +92,7 @@ export class GameGateway {
 
       const user = await this.userService.findOneByKey(data.key);
       const videoCount = await this.videoService.countAll();
-      const id = Math.floor(Math.random() * videoCount);
+      const id = Math.floor(cryptoRandom() * videoCount);
       const video = await this.videoService.findOne(id, user?.id ?? 0);
 
       socket.emit("video", {
