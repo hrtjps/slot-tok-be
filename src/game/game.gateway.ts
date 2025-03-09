@@ -92,7 +92,7 @@ export class GameGateway {
       const user = await this.userService.findOneByKey(data.key);
       const videoCount = await this.videoService.countAll();
       const id = Math.floor(Math.random() * videoCount);
-      const video = await this.videoService.findOne(0, user?.id ?? 0);
+      const video = await this.videoService.findOne(id, user?.id ?? 0);
 
       socket.emit("video", {
         video: {
